@@ -1,0 +1,7 @@
+<h1><%= @book.title %> の詳細ページ</h1>
+
+<p><%= @book.title %></p>
+
+<%= link_to '一覧に戻る', books_path %>
+<%= link_to '編集する', edit_book_path(@book) %>
+<%= link_to '削除する', @book, method: :delete, data: { confirm: '本当に削除しますか？' } %>
