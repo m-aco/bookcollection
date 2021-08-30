@@ -1,10 +1,11 @@
 class BooksController < ApplicationController
+  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  
   def index
     @books = Book.all
   end
 
   def show
-    @book = Book.find(params[:id])
   end
 
   def new
@@ -15,20 +16,18 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     
     if @book.save
-      flash[:success] = '本を登録しました'
-      redirect_to @root_path
+      flash[:success] = '登録しました'
+      redirect_to @book
     else
-      flash.now[:danger] = '本を登録できませんでした'
+      flash.now[:danger] = '登録できませんでした'
       render :new
     end
   end
 
   def edit
-    @book = Book.find(params[:id])
   end
 
   def update
-    @book = Book.find(params[:id])
     
     if @book.update(book_params)
       flash[:success] = '編集しました'
@@ -40,7 +39,6 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    @book = Book.find(params[:id])
     @book.destroy
     
     flash[:success] = '削除しました'
@@ -49,8 +47,12 @@ class BooksController < ApplicationController
   
   private
   
+  def set_book
+    @book = Book.find(params[:id])
+  end
+  
   def book_params
-    params.require(:book).permit(:title)
+    params.require(:book).permit(:title, :review)
   end
   
 end
