@@ -1,12 +1,19 @@
-<%= form_with(model: book) do |f| %>
-  <%= render 'layouts/error_messages', model: f.object %>
-
-
-  <%= f.label :title, 'タイトル' %>
-  <%= f.text_field :title %>
-  
-  <%= f.label :review, '感想' %>
-  <%= f.text_area :review, :size=>"60x10" %>
-  
-  <%= f.submit '登録' %>
-<% end %>
+<div class="row">
+  <div class="col-6">
+    <%= form_with(model: book) do |f| %>
+      <%= render 'layouts/error_messages', model: f.object %>
+    
+      <div class='mb-3'>
+        <%= f.label :title, 'タイトル' %>
+        <%= f.text_field :title, class: 'form-control' %>
+      </div>
+      
+      <div class="mb-3">
+        <%= f.label :review, '感想' %>
+        <%= f.text_area :review, :size=>"60x10", class: 'form-control' %>
+      </div>
+      
+        <%= f.submit '登録', class: 'btn btn-dark' %>
+    <% end %>
+  </div>
+</div>
