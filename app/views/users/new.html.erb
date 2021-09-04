@@ -10,7 +10,7 @@
       
       <div class="mb-3">
         <%= f.label :name, '名前' %>
-        <%= f.email_field :name, class: 'form-control' %>
+        <%= f.text_field :name, class: 'form-control' %>
       </div>
 
       <div class="mb-3">
@@ -25,12 +25,12 @@
       
       <div class="mb-3">
         <%= f.label :password_confirmation, '確認用メールアドレス' %>
-        <%= f.email_field :password_confirmation, class: 'form-control' %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
       </div>
 
       <%= f.submit '新規登録', class: 'btn btn-dark w-100' %>
     <% end %>
 
-    <p>アカウントをお持ちですか？ <%= link_to 'ログインする', signup_path %></p>
+    <p>アカウントをお持ちですか？ <%= link_to 'ログインする', login_path %></p>
   </div>
 </div>

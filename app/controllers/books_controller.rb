@@ -1,11 +1,9 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :require_user_logged_in
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   
   def index
-    @books = Book.all
-  end
-
-  def show
+    @books = current_user.books.all
   end
 
   def new
@@ -13,22 +11,18 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.new(book_params)
-    
+    @book = current_user.books.build(book_params)
     if @book.save
       flash[:success] = '登録しました'
-      redirect_to @book
+      redirect_to root_url
     else
+      @books = current_user.books.order(id: :desc)
       flash.now[:danger] = '登録できませんでした'
       render :new
     end
   end
 
-  def edit
-  end
-
   def update
-    
     if @book.update(book_params)
       flash[:success] = '編集しました'
       redirect_to @book
@@ -40,19 +34,20 @@ class BooksController < ApplicationController
 
   def destroy
     @book.destroy
-    
     flash[:success] = '削除しました'
-    redirect_to books_url
+    redirect_back(fallback_location: root_path)
   end
   
   private
-  
-  def set_book
-    @book = Book.find(params[:id])
-  end
   
   def book_params
     params.require(:book).permit(:title, :review)
   end
   
+  def correct_user
+    @book = current_user.books.find_by(id: params[:id])
+    unless @book
+      redirect_to root_url
+    end
+  end
 end
