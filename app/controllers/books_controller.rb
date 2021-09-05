@@ -3,7 +3,7 @@ class BooksController < ApplicationController
   before_action :correct_user, only: [:show, :edit, :update, :destroy]
   
   def index
-    @books = current_user.books.all
+    @pagy, @books = pagy(current_user.books.all, items:10)
   end
 
   def new
@@ -16,7 +16,7 @@ class BooksController < ApplicationController
       flash[:success] = '登録しました'
       redirect_to root_url
     else
-      @books = current_user.books.order(id: :desc)
+      @pagy, @books = pagy(current_user.books.order(id: :desc))
       flash.now[:danger] = '登録できませんでした'
       render :new
     end
